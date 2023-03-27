@@ -1,9 +1,9 @@
 ext {
-    moduleLibraryName = "ZygiskMenu"
-    magiskModuleId = "ZygiskMenu"
-    moduleName = "Zygisk-Menu-Template"
-    moduleAuthor = "chr1s, fedes1to and ohmyfajett"
-    moduleDescription = "Mod Menu for Unity games"
+    moduleLibraryName = "zyCheatsSG"
+    magiskModuleId = "zyCheatsSG"
+    moduleName = "zyCheats-StumbleGuys"
+    moduleAuthor = "fedes1to"
+    moduleDescription = "Mod Menu for Stumble Guys"
     moduleVersion = "v1.0"
     moduleVersionCode = 1
 }

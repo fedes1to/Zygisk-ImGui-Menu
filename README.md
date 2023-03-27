@@ -1,4 +1,4 @@
-# Zygisk-Menu
+# Stumble Guys Mod Menu
 Mod Menu template for unity games
 
 ** THIS MODULE IS ONLY FOR ARM64 **

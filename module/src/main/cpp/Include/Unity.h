@@ -611,6 +611,13 @@ typedef struct _monoString
     }
 }monoString;
 
+typedef struct _monoDecimal
+{
+    void *klass;
+    void *monitor;
+
+}monoDecimal;
+
 /*
 This struct represents a List. In the dump, a List is declared as List`1.
 Deep down, this simply wraps a C array around a C# list. For example, if you had this in a dump,

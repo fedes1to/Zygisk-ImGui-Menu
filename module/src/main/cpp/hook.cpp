@@ -31,22 +31,17 @@
 #include "Rect.h"
 #include <fstream>
 #include <limits>
-#define GamePackageName "com.company.game" // define the game package name here please
+#define GamePackageName "com.kitkagames.fallbuddies" // define the game package name here please
 
 int glHeight, glWidth;
 
 // here you can define variables for the patches
-bool isValidAuth, autolog;
+bool addCurrency, freeItems, everythingUnlocked, showAllItems, addSkins;
 
-void Pointers()
-{
-    /* here you can define pointers, example of a pointer (static void call):
-     * addGraffiti = (void(*)()) (void*) (g_il2cppBaseMap.startAddress + string2Offset(OBFUSCATE("0x1500D2C")));
-     */
+monoString *CreateIl2cppString(const char *str) {
+    monoString *(*String_CreateString)(void *instance, const char *str) = (monoString*(*)(void*, const char*)) (g_il2cppBaseMap.startAddress + string2Offset(OBFUSCATE("0x2596B20")));
+    return String_CreateString(NULL, str);
 }
-
-#include "Auth.h" // this is for authentication purposes, check the header file for more info
-
 
 int isGame(JNIEnv *env, jstring appDataDir)
 {
@@ -74,7 +69,6 @@ int isGame(JNIEnv *env, jstring appDataDir)
     }
 }
 
-
 bool setupimg;
 
 HOOKAF(void, Input, void *thiz, void *ex_ab, void *ex_ac)
@@ -84,49 +78,68 @@ HOOKAF(void, Input, void *thiz, void *ex_ab, void *ex_ac)
     return;
 }
 
+#include "functions.h"
+
+// declare your hooks here
+void (*old_Backend)(void *instance);
+void Backend(void *instance) {
+    if (instance != NULL) {
+        if (addCurrency) {
+            LOGW("Calling Purchase");
+            PurchaseRealMoney(instance, CreateIl2cppString("special_offer1"), CreateIl2cppString("dev"), NULL);
+            addCurrency = false;
+        }
+        if (addSkins) {
+            LOGW("Calling Skins");
+            addSkins = false;
+        }
+    }
+    return old_Backend(instance);
+}
+
+void* (*old_ProductDefinition)(void *instance, monoString* id, monoString* storeSpecificId, int type, bool enabled, void* payouts);
+void* ProductDefinition(void *instance, monoString* id, monoString* storeSpecificId, int type, bool enabled, void* payouts) {
+    if (instance != NULL) {
+        LOGW("Called ProductDefinition! Here are the parameters:");
+        LOGW("id: %s", id->getChars());
+        LOGW("storeSpecificId: %s", storeSpecificId->getChars());
+        LOGW("type: %i", type);
+    }
+    return old_ProductDefinition(instance, id, storeSpecificId, type, enabled, payouts);
+}
+
 void Hooks() {
-    // here you can define hooks, example of a hook:
-    // HOOK("0x3D0000", PixelTime, old_PixelTime);
+    HOOK("0xE7BC74", Backend, old_Backend);
+    HOOK("0x29DA08C", ProductDefinition, old_ProductDefinition);
 }
-
-void Patches() {
-    // here you can define patches, these can be either at runtime or whenever a bool changes, examples of both
-    // PATCH_SWITCH("0x485525C", "1F2003D5C0035FD6", boolHere);
-    // PATCH("0x100000", "C0035FD6");
-}
-
-bool test; // remove this whenever you're making the menu please
 
 void DrawMenu()
 {
     static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     {
-        ImGui::Begin(OBFUSCATE("Zygisk-Menu"));
-        if (isValidAuth) {
-            ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyResizeDown;
-            if (ImGui::BeginTabBar("Menu", tab_bar_flags)) {
-                if (ImGui::BeginTabItem(OBFUSCATE("Tab 1"))) {
-                    // here menu stuff, remove test btw
-                    ImGui::Checkbox(OBFUSCATE("This is a checkbox"), &test);
-                    ImGui::TextUnformatted(OBFUSCATE("This is a text"));
-                    if (ImGui::Button(OBFUSCATE("This is a button"))) {
-                        // code for button action
-                        ImGui::EndTabItem();
-                    }
+        ImGui::Begin(OBFUSCATE("ZyCheats"));
+        ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyResizeDown;
+        if (ImGui::BeginTabBar("Menu", tab_bar_flags)) {
+            if (ImGui::BeginTabItem(OBFUSCATE("Account"))) {
+                // here menu stuff, remove test btw
+                // ImGui::Checkbox(OBFUSCATE("This is a checkbox"), &test);
+                if (ImGui::Button(OBFUSCATE("Add Currency"))) {
+                    // code for button action
+                    addCurrency = true;
                 }
-                if (ImGui::BeginTabItem(OBFUSCATE("Tab 2"))) {
-                    // example of how to do a list:
-                    // ImGui::ListBox(OBFUSCATE("Select Scene"), &selectedScene, sceneList, IM_ARRAYSIZE(sceneList), 4);
-                    ImGui::EndTabItem();
+                ImGui::TextUnformatted(OBFUSCATE("Adds 1000 gems"));
+                if (ImGui::Button(OBFUSCATE("Add Skins"))) {
+                    // code for button action
+                    addSkins = true;
                 }
-                ImGui::EndTabBar();
+                ImGui::Checkbox(OBFUSCATE("Everything unlocked"), &everythingUnlocked);
+                ImGui::Checkbox(OBFUSCATE("Free Items"), &freeItems);
+                ImGui::Checkbox(OBFUSCATE("Show Items"), &showAllItems);
+                ImGui::EndTabItem();
             }
-            Patches();
+            ImGui::EndTabBar();
         }
-        if (!isValidAuth) {
-            // parses response and shows it to the user
-            ImGui::TextUnformatted(jsonresult.c_str());
-        }
+        Patches();
         ImGui::End();
     }
 }
@@ -154,12 +167,6 @@ EGLBoolean hook_eglSwapBuffers(EGLDisplay dpy, EGLSurface surface) {
         setupimg = true;
     }
 
-    if (autolog)
-    {
-        isValidAuth = tryAutoLogin();
-        autolog = false;
-    }
-
     ImGuiIO &io = ImGui::GetIO();
     ImGui_ImplOpenGL3_NewFrame();
     ImGui::NewFrame();
@@ -180,10 +187,6 @@ void *hack_thread(void *arg) {
     } while (!g_il2cppBaseMap.isValid());
     KITTY_LOGI("il2cpp base: %p", (void*)(g_il2cppBaseMap.startAddress));
 
-    // initialize our pointers and hooks, also we will set whether we want auth or not
-    // for auth: autolog = true; and remove the line below
-    isValidAuth = true;
-
     Pointers();
     Hooks();
 
@@ -196,7 +199,5 @@ void *hack_thread(void *arg) {
         DobbyHook(sym_input,(void*)myInput,(void**)&origInput);
     }
     LOGI("Draw Done!");
-
-
     return nullptr;
 }
