@@ -1,11 +1,10 @@
-# Stumble Guys Mod Menu
+# Zygisk Mod Menu Template
 Mod Menu template for unity games
 
 ** THIS MODULE IS ONLY FOR ARM64 **
 
 This is a good project 
 
-Auth.h holds authentication stuff, feel free to remove it
 This repository also uses cURL and ImGui
 
 Remember to change module.gradle before publishing
