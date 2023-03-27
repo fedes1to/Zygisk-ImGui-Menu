@@ -7,7 +7,7 @@ This is a good project
 
 This repository also uses cURL and ImGui
 
-Remember to change module.gradle before publishing
+Remember to change module.gradle before publishing,
 Main code lives in hook.cpp
 
 # Build and Installation
