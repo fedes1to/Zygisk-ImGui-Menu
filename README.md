@@ -1,5 +1,5 @@
 # Zygisk Mod Menu Template
-Mod Menu template for unity games
+Mod Menu template for unity games (it actually works and has been used multiple times)
 
 ** THIS MODULE IS ONLY FOR ARM64 **
 
