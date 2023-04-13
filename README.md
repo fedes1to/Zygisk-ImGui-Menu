@@ -1,12 +1,11 @@
 # Zygisk Mod Menu Template
-Mod Menu template for unity games (it actually works and has been used multiple times)
+Mod Menu template that injects at runtime for unity games (it actually works and has been used multiple times).
+
+Currently 0 games detect it, USE AT YOUR OWN RISK.
 
 ** THIS MODULE IS ONLY FOR ARM64 **
 
-This is a good project 
-
-This repository also uses cURL and ImGui
-
+This repository also uses cURL and ImGui (duh)
 Remember to change module.gradle before publishing,
 Main code lives in hook.cpp
 
