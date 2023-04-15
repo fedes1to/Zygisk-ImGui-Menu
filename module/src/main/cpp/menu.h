@@ -5,45 +5,47 @@
 #ifndef ZYGISK_MENU_TEMPLATE_MENU_H
 #define ZYGISK_MENU_TEMPLATE_MENU_H
 
+using namespace ImGui;
+
 void DrawMenu()
 {
     static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     {
-        ImGui::Begin(OBFUSCATE("ZyCheats"));
+        Begin(OBFUSCATE("ZyCheats"));
         ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_FittingPolicyResizeDown;
-        if (ImGui::BeginTabBar("Menu", tab_bar_flags)) {
-            if (ImGui::BeginTabItem(OBFUSCATE("Account"))) {
+        if (BeginTabBar("Menu", tab_bar_flags)) {
+            if (BeginTabItem(OBFUSCATE("Account"))) {
                 // here menu stuff, remove test btw
                 // ImGui::Checkbox(OBFUSCATE("This is a checkbox"), &test);
-                if (ImGui::Button(OBFUSCATE("Add Currency"))) {
+                if (Button(OBFUSCATE("Add Currency"))) {
                     // code for button action
                     addCurrency = true;
                 }
-                ImGui::TextUnformatted(OBFUSCATE("Adds 1000 gems"));
-                if (ImGui::Button(OBFUSCATE("Add Skins"))) {
+                TextUnformatted(OBFUSCATE("Adds 1000 gems"));
+                if (Button(OBFUSCATE("Add Skins"))) {
                     // code for button action
                     addSkins = true;
                 }
-                ImGui::Checkbox(OBFUSCATE("Everything unlocked"), &everythingUnlocked);
-                ImGui::Checkbox(OBFUSCATE("Free Items"), &freeItems);
-                ImGui::Checkbox(OBFUSCATE("Show Items"), &showAllItems);
-                ImGui::EndTabItem();
+                Checkbox(OBFUSCATE("Everything unlocked"), &everythingUnlocked);
+                Checkbox(OBFUSCATE("Free Items"), &freeItems);
+                Checkbox(OBFUSCATE("Show Items"), &showAllItems);
+                EndTabItem();
             }
-            ImGui::EndTabBar();
+            EndTabBar();
         }
         Patches();
-        ImGui::End();
+        End();
     }
 }
 
 void SetupImgui() {
     IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
+    CreateContext();
+    ImGuiIO &io = GetIO();
     io.DisplaySize = ImVec2((float) glWidth, (float) glHeight);
     ImGui_ImplOpenGL3_Init("#version 100");
-    ImGui::StyleColorsDark();
-    ImGui::GetStyle().ScaleAllSizes(7.0f);
+    StyleColorsDark();
+    GetStyle().ScaleAllSizes(7.0f);
     io.Fonts->AddFontFromMemoryTTF(Roboto_Regular, 30, 30.0f);
 }
 
@@ -59,14 +61,14 @@ EGLBoolean hook_eglSwapBuffers(EGLDisplay dpy, EGLSurface surface) {
         setupimg = true;
     }
 
-    ImGuiIO &io = ImGui::GetIO();
+    ImGuiIO &io = GetIO();
     ImGui_ImplOpenGL3_NewFrame();
-    ImGui::NewFrame();
+    NewFrame();
 
     DrawMenu();
 
-    ImGui::EndFrame();
-    ImGui::Render();
+    EndFrame();
+    Render();
     glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     return old_eglSwapBuffers(dpy, surface);
