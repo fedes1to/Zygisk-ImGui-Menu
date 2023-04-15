@@ -3,8 +3,6 @@ Mod Menu template that injects at runtime for unity games (it actually works and
 
 Currently 0 games detect it, USE AT YOUR OWN RISK.
 
-** THIS MODULE IS ONLY FOR ARM64 **
-
 This repository also uses cURL and ImGui (duh)
 Remember to change module.gradle before publishing,
 Main code lives in hook.cpp
