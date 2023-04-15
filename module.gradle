@@ -1,9 +1,9 @@
 ext {
-    moduleLibraryName = "zyCheatsSG"
-    magiskModuleId = "zyCheatsSG"
-    moduleName = "zyCheats-StumbleGuys"
+    moduleLibraryName = "zyCheats"
+    magiskModuleId = "zyCheats"
+    moduleName = "zyCheats"
     moduleAuthor = "fedes1to"
-    moduleDescription = "Mod Menu for Stumble Guys"
+    moduleDescription = "Zygisk ImGui Mod Menu"
     moduleVersion = "v1.0"
     moduleVersionCode = 1
 }
