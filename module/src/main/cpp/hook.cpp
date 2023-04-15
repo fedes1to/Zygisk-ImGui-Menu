@@ -20,7 +20,7 @@
 #include "KittyMemory/MemoryPatch.h"
 #include "KittyMemory/KittyScanner.h"
 #include "KittyMemory/KittyUtils.h"
-#include "Includes/Dobby/dobbyForHooks.h"
+#include "Includes/Dobby/dobby.h"
 #include "Include/Unity.h"
 #include "Misc.h"
 #include "hook.h"
