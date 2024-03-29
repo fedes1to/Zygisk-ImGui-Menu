@@ -40,7 +40,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include <Include/obfuscate.h>
+#include "../obfuscate.h"
 
 #ifdef __arm__
 /* WebCore (ARM) PC-Relative:
