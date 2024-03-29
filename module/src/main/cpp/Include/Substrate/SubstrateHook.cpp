@@ -163,7 +163,7 @@ extern "C" size_t MSGetInstructionWidth(void *start) {
 static size_t SubstrateHookFunctionThumb(SubstrateProcessRef process, void *symbol, void *replace, void **result) {
     if (symbol == NULL)
         return 0;
-printf(OBFUSCATE("SubstrateHookFunctionThumb\n"));
+printf("%s\n", OBFUSCATE("SubstrateHookFunctionThumb"));
     uint16_t *area(reinterpret_cast<uint16_t *>(symbol));
 
     unsigned align((reinterpret_cast<uintptr_t>(area) & 0x2) == 0 ? 0 : 1);
