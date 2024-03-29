@@ -28,7 +28,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <Includes/obfuscate.h>
+#include "../obfuscate.h"
 
 extern "C" void __clear_cache (void *beg, void *end);
 
