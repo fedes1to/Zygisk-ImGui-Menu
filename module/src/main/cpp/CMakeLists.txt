@@ -51,7 +51,6 @@ add_library(${MODULE_NAME}
         main.cpp
         hook.cpp
         Chams.h
-        Include/SubstrateHook.h
         Include/SubstrateHook.cpp
         Include/SubstrateARM.hpp
         Include/CydiaSubstrate.h
