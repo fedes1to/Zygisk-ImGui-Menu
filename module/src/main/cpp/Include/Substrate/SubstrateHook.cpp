@@ -562,7 +562,7 @@ printf("%s\n", OBFUSCATE("SubstrateHookFunctionThumb"));
 static size_t SubstrateHookFunctionARM(SubstrateProcessRef process, void *symbol, void *replace, void **result) {
     if (symbol == NULL)
         return 0;
-    printf(OBFUSCATE("SubstrateHookFunctionARM\n"));
+    printf("%s\n", OBFUSCATE("SubstrateHookFunctionARM"));
     uint32_t *area(reinterpret_cast<uint32_t *>(symbol));
     uint32_t *arm(area);
 
