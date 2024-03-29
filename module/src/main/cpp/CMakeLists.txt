@@ -51,6 +51,12 @@ add_library(${MODULE_NAME}
         main.cpp
         hook.cpp
         Chams.h
+        Include/SubstrateHook.h
+        Include/SubstrateHook.cpp
+        Include/SubstrateARM.hpp
+        Include/CydiaSubstrate.h
+        Include/hde64.c
+        Include/SubstratePosixMemory.cpp
         )
 
 set(DOBBY_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libs/${CMAKE_ANDROID_ARCH_ABI}/libdobby.a)
