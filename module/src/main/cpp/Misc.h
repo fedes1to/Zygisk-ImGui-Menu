@@ -6,9 +6,9 @@
 
 #include "Includes/Dobby/dobby.h"
 #include "Include/Unity.h"
-#include "KittyMemory/KittyMemory.h"
-#include "KittyMemory/KittyScanner.h"
-#include "KittyMemory/MemoryPatch.h"
+#include "KittyMemory/KittyMemory.hpp"
+#include "KittyMemory/KittyScanner.hpp"
+#include "KittyMemory/MemoryPatch.hpp"
 #include "Include/obfuscate.h"
 
 using KittyMemory::ProcMap;
