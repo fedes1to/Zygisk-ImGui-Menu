@@ -31,7 +31,7 @@
 #include "Rect.h"
 #include <fstream>
 #include <limits>
-#define GamePackageName "com.kakaogames.gdts" // define the game package name here please
+#define GamePackageName "com.peaklegend.gpthgame" // define the game package name here please
 
 int glHeight, glWidth;
 
