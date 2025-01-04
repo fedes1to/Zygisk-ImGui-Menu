@@ -70,6 +70,14 @@ HOOKAF(void, Input, void *thiz, void *ex_ab, void *ex_ac)
     return;
 }
 
+HOOKAF(int32_t, Consume, void *thiz, void *arg1, bool arg2, long arg3, uint32_t *arg4, AInputEvent **input_event)
+{
+    auto result = origConsume(thiz, arg1, arg2, arg3, arg4, input_event);
+    if(result != 0 || *input_event == nullptr) return result;
+    ImGui_ImplAndroid_HandleInputEvent(*input_event);
+    return result;
+}
+
 #include "functions.h"
 #include "menu.h"
 
@@ -88,6 +96,11 @@ void *hack_thread(void *arg) {
     void *sym_input = DobbySymbolResolver(("/system/lib/libinput.so"), ("_ZN7android13InputConsumer21initializeMotionEventEPNS_11MotionEventEPKNS_12InputMessageE"));
     if (NULL != sym_input) {
         DobbyHook(sym_input,(void*)myInput,(void**)&origInput);
+    } else {
+        sym_input = DobbySymbolResolver(("/system/lib/libinput.so"), ("_ZN7android13InputConsumer7consumeEPNS_26InputEventFactoryInterfaceEblPjPPNS_10InputEventE"));
+        if(NULL != sym_input) {
+            DobbyHook(sym_input,(void *) myConsume,(void **) &origConsume);
+        }
     }
     LOGI("Draw Done!");
     return nullptr;
