@@ -1,3 +1,5 @@
+# FOR THE XPOSED ALTERNATIVE (DOESNT REQUIRE REBOOT TO UPDATE) GO [HERE](https://github.com/fedes1to/XposedImGuiMenu)
+
 # Zygisk Mod Menu Template
 Mod Menu template that injects at runtime for unity games. This will bypass most common checks as it doesn't modify the game's APK file.
 
